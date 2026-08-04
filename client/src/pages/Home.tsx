@@ -1,8 +1,3 @@
-/**
- * Voyage UAE — Atlas of Warm Stone.
- * This page follows an editorial travel route with emerald structure, champagne captions, and restrained map-like motion.
- */
-
 import { useMemo, useState, type MouseEvent } from "react";
 import {
   ArrowDownRight,
@@ -113,13 +108,7 @@ export default function Home() {
         <div className="shell topbar-inner">
           <a className="brand-lockup" href="#home" aria-label="Voyage UAE home">
             <img
-              className="brand-mark"
-              src="/manus-storage/voyage-uae-logo_8262b330.png"
-              onError={(e) => {
-                (e.target as HTMLImageElement).src = getImageUrl("/manus-storage/voyage-uae-logo_8262b330.png");
-              }}
-              alt=""
-            />
+              className="brand-mark"></img>
             <span className="brand-copy">
               <span className="brand-name">Voyage UAE</span>
               <span className="brand-kicker">Travel guide project</span>
@@ -136,13 +125,7 @@ export default function Home() {
       <main>
         <section className="hero" id="home">
           <img
-            className="hero-media"
-            src="/manus-storage/voyage-uae-hero-placeholder_7bdb7c31.jpg"
-            onError={(e) => {
-              (e.target as HTMLImageElement).src = getImageUrl("/manus-storage/voyage-uae-hero-placeholder_7bdb7c31.jpg");
-            }}
-            alt="Desert dunes, modern UAE architecture, city skyline, and distant mountains"
-          />
+            className="hero-media"></img>
           <div className="hero-overlay" />
           <div className="shell hero-inner">
             <div className="hero-content">
@@ -301,7 +284,7 @@ export default function Home() {
           </section>
 
           <section className="shell route-section" id="solution" data-route="25.7895° N · 55.9432° E">
-            <RouteRail index="04" title="AI solution" />
+            <RouteRail index="04" title="AI solution" />+
             <div className="section-content">
               <div className="section-heading">
                 <span className="eyebrow">A thoughtful travel plan</span>
@@ -439,11 +422,6 @@ export default function Home() {
             </div>
             <img
               className="closing-mark"
-              src="/manus-storage/voyage-uae-logo_8262b330.png"
-              onError={(e) => {
-                (e.target as HTMLImageElement).src = getImageUrl("/manus-storage/voyage-uae-logo_8262b330.png");
-              }}
-              alt=""
             />
           </div>
         </section>
