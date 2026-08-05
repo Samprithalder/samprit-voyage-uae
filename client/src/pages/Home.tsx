@@ -172,15 +172,15 @@ export default function Home() {
               <h2>Student details</h2>
               <dl className="student-list">
                 <div>
-                  <dt>Student name</dt>
+                  <dt>Student name:</dt>
                   <dd>Samprit Halder</dd>
                 </div>
                 <div>
-                  <dt>Grade &amp; section</dt>
+                  <dt>Grade &amp; section:</dt>
                   <dd>Grade 9 - C</dd>
                 </div>
                 <div>
-                  <dt>Roll number</dt>
+                  <dt>Roll number:</dt>
                   <dd>23</dd>
                 </div>
               </dl>
