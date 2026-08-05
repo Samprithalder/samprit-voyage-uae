@@ -1268,6 +1268,7 @@ p,
 h3, 
 .spotlight-card h3, 
 .card-title {
+  color: #f8f3ea !important;
   font-size: 1.35rem !important;     
   font-weight: 700;
   margin-bottom: 0.5rem;
