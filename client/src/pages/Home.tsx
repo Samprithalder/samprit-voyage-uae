@@ -184,6 +184,13 @@ export default function Home() {
                   <dd>23</dd>
                 </div>
               </dl>
+              <div className="overflow-hidden rounded-2xl border border-emerald-500/30 bg-emerald-950/20 backdrop-blur-sm shadow-xl max-w-sm p-2">
+                 <img
+                  src="/assets/dubai-skyline.jpg"
+                  alt="Dubai Skyline"
+                  className="w-full h-60 object-cover rounded-xl opacity-80"
+                  />
+                </div>
             </aside>
           </div>
         </section>
@@ -209,7 +216,7 @@ export default function Home() {
                 <div className="ai-points">
                   <article className="ai-point">
                     <strong>Locations</strong>
-                    <p>Displays famous locations in UAE.</p>
+                    <p>Displays famous locations in the UAE.</p>
                   </article>
                   <article className="ai-point">
                     <strong>Location Suggestions</strong>
@@ -429,7 +436,7 @@ export default function Home() {
               <span className="eyebrow">Conclusion</span>
               <h2>Voyage UAE turns “Where do we go next?” into a simple, thoughtful route.</h2>
               <p>
-                By bringing translation, helpful suggestions, and a clear travel plan into one place, the project helps visitors spend less time feeling lost and more time learning about the UAE.
+                By bringing helpful suggestions, and a clear travel plan into one place, the project helps visitors spend less time feeling lost and more time learning about the UAE.
               </p>
             </div>
             <img

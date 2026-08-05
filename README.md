@@ -274,6 +274,3 @@ For questions about the project structure or how to modify it, refer to:
 This project is created for educational purposes as a Grade 9 Artificial Intelligence project.
 
 ---
-
-**Last Updated**: July 31, 2026  
-**Project Version**: 1.0.0
