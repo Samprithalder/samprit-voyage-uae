@@ -48,7 +48,7 @@ select {
 }
 
 .shell {
-  width: min(1180px, calc(100% - 40px));
+  width: min(1440px, calc(100% - 40px));
   margin: 0 auto;
 }
 
@@ -506,8 +506,9 @@ select {
 
 .overview-layout {
   display: grid;
-  grid-template-columns: 0.94fr 1.06fr;
+  grid-template-columns: 1fr 1fr;
   gap: 25px;
+  align-items: start;
 }
 
 .spotlight-card,
@@ -1253,4 +1254,10 @@ select {
     animation-iteration-count: 1 !important;
     transition-duration: 0.001ms !important;
   }
+}
+
+.full-width-section {
+  width: 100vw;
+  margin-left: calc(-50vw + 50%);
+  margin-right: calc(-50vw + 50%);
 }
