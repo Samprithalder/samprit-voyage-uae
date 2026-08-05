@@ -1,9 +1,3 @@
-/*
- * Voyage UAE — Atlas of Warm Stone
- * Travel-editorial palette: Voyage Emerald #064E3B, Champagne #F8E7C9, pale sand paper.
- * Keep every surface feeling like a route guide: curved lines, caption bands, calm layered spacing.
- */
-
 :root {
   --voyage-emerald: #064e3b;
   --voyage-deep: #033429;
@@ -1260,4 +1254,36 @@ select {
   width: 100vw;
   margin-left: calc(-50vw + 50%);
   margin-right: calc(-50vw + 50%);
+}
+
+p, 
+.section-content p, 
+.overview-layout p {
+  font-size: 1.1rem !important;      
+  line-height: 1.65;                 
+  color: #2d3a34;                    
+}
+
+
+h3, 
+.spotlight-card h3, 
+.card-title {
+  font-size: 1.35rem !important;     
+  font-weight: 700;
+  margin-bottom: 0.5rem;
+}
+
+
+.eyebrow, 
+[class*="tag"], 
+[class*="label"],
+[class*="note"] {
+  font-size: 0.875rem !important;    
+  letter-spacing: 0.08em;             
+  font-weight: 600;
+}
+h2, 
+.section-heading h2 {
+  font-size: clamp(2.2rem, 3.5vw, 3rem) !important; 
+  line-height: 1.15;
 }
