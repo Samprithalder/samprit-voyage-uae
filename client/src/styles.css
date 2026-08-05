@@ -34,11 +34,13 @@ select {
 }
 
 .voyage-page {
+.voyage-page {
   min-height: 100vh;
-  overflow: hidden;
+  overflow: clip; 
   background:
     radial-gradient(circle at 100% 11%, rgba(248, 231, 201, 0.9), transparent 22rem),
     linear-gradient(180deg, #f8f3ea 0%, #f4efe5 57%, #ece1cf 100%);
+}
 }
 
 .voyage-page * {

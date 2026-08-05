@@ -184,13 +184,6 @@ export default function Home() {
                   <dd>23</dd>
                 </div>
               </dl>
-              <div className="overflow-hidden rounded-2xl border border-emerald-500/30 bg-emerald-950/20 backdrop-blur-sm shadow-xl max-w-sm p-2">
-                 <img
-                  src="/assets/dubai-skyline.jpg"
-                  alt="Dubai Skyline"
-                  className="w-full h-60 object-cover rounded-xl opacity-80"
-                  />
-                </div>
             </aside>
           </div>
         </section>
