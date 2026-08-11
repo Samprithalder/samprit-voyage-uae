@@ -176,16 +176,16 @@ select {
     linear-gradient(180deg, rgba(3, 52, 41, 0.18), rgba(3, 52, 41, 0.72));
 }
 
-.hero::after {
+.hero-linework {
   position: absolute;
-  right: -12%;
-  bottom: -42%;
-  width: 610px;
-  height: 610px;
-  border: 1px solid rgba(248, 231, 201, 0.29);
-  border-radius: 50%;
-  content: "";
-  opacity: 0.85;
+  inset: 0;
+  z-index: -1;
+  background-image: url("/assets/dubai-skyline-outline.jpg");
+  background-repeat: no-repeat;
+  background-position: center bottom;
+  background-size: cover;
+  mix-blend-mode: screen;
+  opacity: 0.16;
   pointer-events: none;
 }
 
@@ -551,6 +551,20 @@ select {
   box-shadow: var(--voyage-shadow);
 }
 
+.spotlight-card::after {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  background-image: url("/assets/dubai-skyline-outline.jpg");
+  background-repeat: no-repeat;
+  background-position: center bottom;
+  background-size: cover;
+  mix-blend-mode: screen;
+  opacity: 0.16;
+  content: "";
+  pointer-events: none;
+}
+
 .spotlight-card h3,
 .content-card h3,
 .itinerary-result h3 {
@@ -823,8 +837,23 @@ select {
 
 .itinerary-form-area {
   position: relative;
+  isolation: isolate;
   padding: 31px;
   color: var(--voyage-champagne);
+}
+
+.itinerary-form-area::before {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background-image: url("/assets/dubai-skyline-outline.jpg");
+  background-repeat: no-repeat;
+  background-position: center bottom;
+  background-size: cover;
+  mix-blend-mode: screen;
+  opacity: 0.13;
+  content: "";
+  pointer-events: none;
 }
 
 .itinerary-form-area::after {
@@ -1007,9 +1036,25 @@ select {
 }
 
 .closing-section {
+  position: relative;
+  isolation: isolate;
   margin-top: 4px;
   background: var(--voyage-emerald);
   color: var(--voyage-champagne);
+}
+
+.closing-section::before {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background-image: url("/assets/dubai-skyline-outline.jpg");
+  background-repeat: no-repeat;
+  background-position: center bottom;
+  background-size: cover;
+  mix-blend-mode: screen;
+  opacity: 0.16;
+  content: "";
+  pointer-events: none;
 }
 
 .closing-inner {

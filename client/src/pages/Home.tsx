@@ -183,6 +183,7 @@ export default function Home() {
             alt="Desert dunes, modern UAE architecture, city skyline, and distant mountains"
           />
           <div className="hero-overlay" />
+          <div className="hero-linework" aria-hidden="true" />
           <div className="shell hero-inner">
             <div className="hero-content">
               <span className="eyebrow">AI Tourism Assistant</span>
