@@ -8,19 +8,47 @@ import {
   ScanLine,
   Volume2,
 } from "lucide-react";
-import {
-  durationOptions,
-  emirateOptions,
-  generateItinerary,
-  interestOptions,
-  type Duration,
-  type Emirate,
-  type Interest,
-} from "../script";
+import { generateItinerary } from "../script";
 import "../styles.css";
 import { getImageUrl } from "../imageLoader";
 
 type LandmarkTab = "all" | "culture" | "nature" | "modern";
+type Emirate = string;
+type Interest = string;
+type Duration = string;
+
+const emirateOptions: Emirate[] = [
+  "All UAE",
+  "Abu Dhabi",
+  "Dubai",
+  "Sharjah",
+  "Ajman",
+  "Umm Al Quwain",
+  "Ras Al Khaimah",
+  "Fujairah",
+];
+
+const interestOptions: Interest[] = [
+  "Culture & Heritage",
+  "Nature & Mountains",
+  "Modern Landmarks",
+];
+
+const durationOptions: Duration[] = ["1 Day", "2 Days", "3 Days"];
+
+interface ItineraryStop {
+  day: number;
+  timing: string;
+  name: string;
+  emirate: string;
+  note: string;
+}
+
+interface ItineraryData {
+  title: string;
+  summary: string;
+  stops: ItineraryStop[];
+}
 
 const landmarkCards = [
   {
@@ -85,9 +113,21 @@ export default function Home() {
   const [emirate, setEmirate] = useState<Emirate>("All UAE");
   const [interest, setInterest] = useState<Interest>("Culture & Heritage");
   const [duration, setDuration] = useState<Duration>("3 Days");
-  const [itinerary, setItinerary] = useState(() =>
-    generateItinerary("All UAE", "Culture & Heritage", "3 Days"),
-  );
+  const [isGenerating, setIsGenerating] = useState(false);
+
+  const [itinerary, setItinerary] = useState<ItineraryData>({
+    title: "3 Days in All UAE",
+    summary: "Select your preferences and click Generate to build a custom travel route!",
+    stops: [
+      {
+        day: 1,
+        timing: "Morning",
+        name: "Louvre Abu Dhabi",
+        emirate: "Abu Dhabi",
+        note: "Explore world-class art and iconic modern architecture."
+      }
+    ],
+  });
 
   const visibleLandmarks = useMemo(
     () => landmarkCards.filter((landmark) => landmark.groups.includes(activeTab)),
@@ -98,8 +138,23 @@ export default function Home() {
     document.getElementById("plan")?.scrollIntoView({ behavior: "smooth", block: "start" });
   };
 
-  const makeItinerary = () => {
-    setItinerary(generateItinerary(emirate, interest, duration));
+  const makeItinerary = async () => {
+    setIsGenerating(true);
+    try {
+      const days = parseInt(duration) || 1;
+      const result = await generateItinerary({
+        emirate,
+        interest,
+        duration: days,
+      });
+      if (result) {
+        setItinerary(result);
+      }
+    } catch (error) {
+      console.error("Failed to generate itinerary:", error);
+    } finally {
+      setIsGenerating(false);
+    }
   };
 
   return (
@@ -364,10 +419,11 @@ export default function Home() {
                         className="specular-button"
                         type="button"
                         onClick={makeItinerary}
+                        disabled={isGenerating}
                         onMouseMove={setMagnetPosition}
                         onMouseLeave={resetMagnetPosition}
                       >
-                        <span>Generate Itinerary</span>
+                        <span>{isGenerating ? "Generating..." : "Generate Itinerary"}</span>
                         <ArrowRight size={16} strokeWidth={2.2} aria-hidden="true" />
                       </button>
                     </div>
