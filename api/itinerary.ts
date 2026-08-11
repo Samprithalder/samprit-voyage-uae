@@ -10,20 +10,20 @@ export default async function handler(req: any, res: any) {
 
   if (!apiKey) {
     return res.status(500).json({
-      error: 'GEMINI_API_KEY missing. Add it to your .env.local file or Vercel Environment Variables.'
+      error: 'GEMINI_API_KEY is missing on Vercel. Add GEMINI_API_KEY under Project Settings -> Environment Variables.'
     });
   }
 
   const daysCount = parseInt(duration) || 1;
 
-  const prompt = `You are a professional UAE travel guide AI. Generate a realistic and engaging travel itinerary based on:
+  const prompt = `You are a professional UAE travel guide AI. Generate a realistic travel itinerary based on:
 - Emirate: ${emirate}
 - Interest: ${interest}
 - Duration: ${daysCount} Days
 
-Ensure that for EVERY day from Day 1 to Day ${daysCount}, you generate 1 Morning stop and 1 Afternoon stop with distinct, real locations.
+Generate 1 Morning stop and 1 Afternoon stop for every day up to Day ${daysCount}.
 
-Return ONLY a valid JSON object matching this structure:
+Return ONLY valid JSON matching this exact structure:
 {
   "title": "${daysCount}-Day ${interest} in ${emirate}",
   "summary": "Brief 1-2 sentence overview of the trip.",
@@ -32,15 +32,8 @@ Return ONLY a valid JSON object matching this structure:
       "day": 1,
       "timing": "Morning",
       "name": "Specific Real Attraction Name",
-      "emirate": "Emirate Name",
-      "note": "1 helpful sentence describing what to do here."
-    },
-    {
-      "day": 1,
-      "timing": "Afternoon",
-      "name": "Specific Real Attraction Name",
-      "emirate": "Emirate Name",
-      "note": "1 helpful sentence describing what to do here."
+      "emirate": "${emirate}",
+      "note": "1 sentence describing what to do here."
     }
   ]
 }`;
@@ -56,7 +49,6 @@ Return ONLY a valid JSON object matching this structure:
         body: JSON.stringify({
           contents: [{ parts: [{ text: prompt }] }],
           generationConfig: {
-            responseMimeType: 'application/json',
             temperature: 0.7,
           },
         }),
@@ -66,20 +58,23 @@ Return ONLY a valid JSON object matching this structure:
     if (!response.ok) {
       const errText = await response.text();
       console.error('Gemini API Error:', errText);
-      return res.status(500).json({ error: 'AI generation failed from Gemini API.' });
+      return res.status(500).json({ error: 'Gemini API returned an error: ' + errText });
     }
 
     const data = await response.json();
-    const rawJsonText = data.candidates?.[0]?.content?.parts?.[0]?.text;
+    let rawJsonText = data.candidates?.[0]?.content?.parts?.[0]?.text;
 
     if (!rawJsonText) {
-      return res.status(500).json({ error: 'No response content from AI.' });
+      return res.status(500).json({ error: 'No text response from Gemini AI.' });
     }
+
+    // Clean markdown code blocks if present (```json ... ```)
+    rawJsonText = rawJsonText.replace(/```json/g, '').replace(/```/g, '').trim();
 
     const itinerary = JSON.parse(rawJsonText);
     return res.status(200).json({ itinerary });
-  } catch (error) {
+  } catch (error: any) {
     console.error('Error in itinerary handler:', error);
-    return res.status(500).json({ error: 'Internal server error while querying AI.' });
+    return res.status(500).json({ error: 'Failed to generate itinerary: ' + error.message });
   }
 }

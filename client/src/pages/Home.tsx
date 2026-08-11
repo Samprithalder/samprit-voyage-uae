@@ -135,9 +135,12 @@ export default function Home() {
       });
       if (result) {
         setItinerary(result);
+      } else {
+        alert("Failed to generate itinerary. Check Vercel Function logs.");
       }
-    } catch (error) {
+    } catch (error: any) {
       console.error("Failed to generate itinerary:", error);
+      alert("Error: " + (error?.message || "Could not connect to AI service."));
     } finally {
       setIsGenerating(false);
     }
