@@ -10,7 +10,7 @@ export default async function handler(req: any, res: any) {
 
   if (!apiKey) {
     return res.status(500).json({
-      error: 'GEMINI_API_KEY is missing on Vercel. Add GEMINI_API_KEY under Project Settings -> Environment Variables.'
+      error: 'GEMINI_API_KEY missing on Vercel. Please add it under Settings -> Environment Variables.'
     });
   }
 
@@ -31,7 +31,7 @@ Return ONLY valid JSON matching this exact structure:
     {
       "day": 1,
       "timing": "Morning",
-      "name": "Specific Real Attraction Name",
+      "name": "Specific Real Attraction Name (e.g., Sheikh Zayed Grand Mosque, Louvre Abu Dhabi, Al Fahidi, Jebel Jais)",
       "emirate": "${emirate}",
       "note": "1 sentence describing what to do here."
     }
@@ -39,8 +39,9 @@ Return ONLY valid JSON matching this exact structure:
 }`;
 
   try {
+    // Updated endpoint model to gemini-2.5-flash
     const response = await fetch(
-      `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${apiKey}`,
+      `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${apiKey}`,
       {
         method: 'POST',
         headers: {
@@ -48,9 +49,6 @@ Return ONLY valid JSON matching this exact structure:
         },
         body: JSON.stringify({
           contents: [{ parts: [{ text: prompt }] }],
-          generationConfig: {
-            temperature: 0.7,
-          },
         }),
       }
     );
@@ -58,7 +56,7 @@ Return ONLY valid JSON matching this exact structure:
     if (!response.ok) {
       const errText = await response.text();
       console.error('Gemini API Error:', errText);
-      return res.status(500).json({ error: 'Gemini API returned an error: ' + errText });
+      return res.status(500).json({ error: 'Gemini API Error: ' + errText });
     }
 
     const data = await response.json();
@@ -68,13 +66,13 @@ Return ONLY valid JSON matching this exact structure:
       return res.status(500).json({ error: 'No text response from Gemini AI.' });
     }
 
-    // Clean markdown code blocks if present (```json ... ```)
+    // Strip markdown formatting (```json ... ```)
     rawJsonText = rawJsonText.replace(/```json/g, '').replace(/```/g, '').trim();
 
     const itinerary = JSON.parse(rawJsonText);
     return res.status(200).json({ itinerary });
   } catch (error: any) {
     console.error('Error in itinerary handler:', error);
-    return res.status(500).json({ error: 'Failed to generate itinerary: ' + error.message });
+    return res.status(500).json({ error: 'Server error: ' + error.message });
   }
 }

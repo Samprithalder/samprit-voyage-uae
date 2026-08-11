@@ -39,8 +39,9 @@ Return ONLY valid JSON matching this exact structure:
 }`;
 
   try {
+    // Updated endpoint model to gemini-2.5-flash
     const response = await fetch(
-      `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${apiKey}`,
+      `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${apiKey}`,
       {
         method: 'POST',
         headers: {
@@ -65,7 +66,7 @@ Return ONLY valid JSON matching this exact structure:
       return res.status(500).json({ error: 'No text response from Gemini AI.' });
     }
 
-    // Strip markdown formatting if returned (```json ... ```)
+    // Strip markdown formatting (```json ... ```)
     rawJsonText = rawJsonText.replace(/```json/g, '').replace(/```/g, '').trim();
 
     const itinerary = JSON.parse(rawJsonText);
