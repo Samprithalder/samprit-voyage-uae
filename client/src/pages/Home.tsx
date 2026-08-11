@@ -8,33 +8,19 @@ import {
   ScanLine,
   Volume2,
 } from "lucide-react";
-import { generateItinerary } from "../script";
+import {
+  durationOptions,
+  emirateOptions,
+  generateItinerary,
+  interestOptions,
+  type Duration,
+  type Emirate,
+  type Interest,
+} from "../script";
 import "../styles.css";
 import { getImageUrl } from "../imageLoader";
 
 type LandmarkTab = "all" | "culture" | "nature" | "modern";
-type Emirate = string;
-type Interest = string;
-type Duration = string;
-
-const emirateOptions: Emirate[] = [
-  "All UAE",
-  "Abu Dhabi",
-  "Dubai",
-  "Sharjah",
-  "Ajman",
-  "Umm Al Quwain",
-  "Ras Al Khaimah",
-  "Fujairah",
-];
-
-const interestOptions: Interest[] = [
-  "Culture & Heritage",
-  "Nature & Mountains",
-  "Modern Landmarks",
-];
-
-const durationOptions: Duration[] = ["1 Day", "2 Days", "3 Days"];
 
 interface ItineraryStop {
   day: number;
