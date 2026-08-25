@@ -1,8 +1,8 @@
 declare const process: any;
 
 export default async function handler(req: any, res: any) {
-  if (req.method !== 'POST') {
-    return res.status(405).json({ error: 'Method not allowed' });
+  if (req.method !== "POST") {
+    return res.status(405).json({ error: "Method not allowed" });
   }
 
   const { emirate, interest, duration } = req.body;
@@ -10,7 +10,8 @@ export default async function handler(req: any, res: any) {
 
   if (!apiKey) {
     return res.status(500).json({
-      error: 'GEMINI_API_KEY missing on Vercel. Please add it under Settings -> Environment Variables.'
+      error:
+        "GEMINI_API_KEY missing on Vercel. Please add it under Settings -> Environment Variables.",
     });
   }
 
@@ -38,21 +39,18 @@ Return ONLY valid JSON matching this exact structure:
   ]
 }`;
 
-  // Try Google's rolling "latest" alias first (auto-follows their current stable Flash
-  // model, so this stops going stale), then fall back to pinned models in case "latest"
-  // ever has an outage or the key lacks access to it.
-  const modelCandidates = ['gemini-flash-latest', 'gemini-2.5-flash', 'gemini-2.5-flash-lite'];
+  const modelCandidates = ["gemini-2.5-flash", "gemini-2.5-flash-lite"];
 
-  let lastError = '';
+  let lastError = "";
 
   try {
     for (const model of modelCandidates) {
       const response = await fetch(
         `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${apiKey}`,
         {
-          method: 'POST',
+          method: "POST",
           headers: {
-            'Content-Type': 'application/json',
+            "Content-Type": "application/json",
           },
           body: JSON.stringify({
             contents: [{ parts: [{ text: prompt }] }],
@@ -64,31 +62,36 @@ Return ONLY valid JSON matching this exact structure:
         const errText = await response.text();
         console.error(`Gemini API Error (model: ${model}):`, errText);
         lastError = errText;
-        // 404 usually means this specific model isn't available to this API key/project —
-        // try the next candidate. Any other error (bad key, quota, etc.) isn't going to be
-        // fixed by switching models, so stop immediately.
         if (response.status === 404) {
           continue;
         }
-        return res.status(500).json({ error: `Gemini API Error (model: ${model}): ${errText}` });
+        return res
+          .status(500)
+          .json({ error: `Gemini API Error (model: ${model}): ${errText}` });
       }
 
       const data = await response.json();
       let rawJsonText = data.candidates?.[0]?.content?.parts?.[0]?.text;
 
       if (!rawJsonText) {
-        lastError = 'No text response from Gemini AI.';
+        lastError = "No text response from Gemini AI.";
         continue;
       }
 
       // Strip markdown formatting (```json ... ```)
-      rawJsonText = rawJsonText.replace(/```json/g, '').replace(/```/g, '').trim();
+      rawJsonText = rawJsonText
+        .replace(/```json/g, "")
+        .replace(/```/g, "")
+        .trim();
 
       try {
         const itinerary = JSON.parse(rawJsonText);
         return res.status(200).json({ itinerary });
       } catch (parseErr: any) {
-        console.error(`Failed to parse Gemini JSON (model: ${model}):`, rawJsonText);
+        console.error(
+          `Failed to parse Gemini JSON (model: ${model}):`,
+          rawJsonText
+        );
         lastError = `Could not parse itinerary JSON from model ${model}: ${parseErr.message}`;
         continue;
       }
@@ -96,10 +99,10 @@ Return ONLY valid JSON matching this exact structure:
 
     // Every candidate model failed.
     return res.status(500).json({
-      error: `All Gemini models failed. Last error: ${lastError}. Double-check that GEMINI_API_KEY in Vercel is a valid, unrestricted key from https://aistudio.google.com/apikey.`
+      error: `All Gemini models failed. Last error: ${lastError}. Double-check that GEMINI_API_KEY in Vercel is a valid, unrestricted key from https://aistudio.google.com/apikey.`,
     });
   } catch (error: any) {
-    console.error('Error in itinerary handler:', error);
-    return res.status(500).json({ error: 'Server error: ' + error.message });
+    console.error("Error in itinerary handler:", error);
+    return res.status(500).json({ error: "Server error: " + error.message });
   }
 }
