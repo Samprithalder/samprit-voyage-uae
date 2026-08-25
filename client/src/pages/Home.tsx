@@ -103,62 +103,26 @@ function RouteRail({ index, title }: { index: string; title: string }) {
 }
 
 function ItinerarySkeleton() {
-  const shimmer =
-    "linear-gradient(90deg, rgba(255,255,255,0.08), rgba(255,255,255,0.24), rgba(255,255,255,0.08))";
-
   return (
-    <div role="status" aria-label="Generating itinerary">
-      <div aria-hidden="true" style={{ display: "grid", gap: "0.75rem" }}>
-        <span
-          style={{
-            width: "42%",
-            height: "0.75rem",
-            borderRadius: "999px",
-            background: shimmer,
-          }}
-        />
-        <span
-          style={{
-            width: "88%",
-            height: "0.75rem",
-            borderRadius: "999px",
-            background: shimmer,
-          }}
-        />
+    <div
+      className="itinerary-skeleton"
+      role="status"
+      aria-label="Generating itinerary"
+    >
+      <span className="sr-only">Generating your itinerary.</span>
+      <div className="skeleton-intro" aria-hidden="true">
+        <span className="skeleton-line skeleton-line--kicker" />
+        <span className="skeleton-line skeleton-line--title" />
+        <span className="skeleton-line skeleton-line--summary" />
+      </div>
+      <div className="skeleton-stops" aria-hidden="true">
         {["first", "second", "third"].map(item => (
-          <div
-            key={item}
-            style={{
-              display: "grid",
-              gap: "0.55rem",
-              padding: "1rem 0",
-              borderTop: "1px solid rgba(255, 255, 255, 0.12)",
-            }}
-          >
-            <span
-              style={{
-                width: "30%",
-                height: "0.65rem",
-                borderRadius: "999px",
-                background: shimmer,
-              }}
-            />
-            <span
-              style={{
-                width: "58%",
-                height: "0.9rem",
-                borderRadius: "999px",
-                background: shimmer,
-              }}
-            />
-            <span
-              style={{
-                width: "78%",
-                height: "0.7rem",
-                borderRadius: "999px",
-                background: shimmer,
-              }}
-            />
+          <div className="skeleton-stop" key={item}>
+            <span className="skeleton-line skeleton-line--time" />
+            <div className="skeleton-stop-copy">
+              <span className="skeleton-line skeleton-line--stop-title" />
+              <span className="skeleton-line skeleton-line--stop-detail" />
+            </div>
           </div>
         ))}
       </div>

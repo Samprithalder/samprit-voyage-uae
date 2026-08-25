@@ -984,6 +984,88 @@ select {
   justify-content: center;
 }
 
+.itinerary-skeleton {
+  display: grid;
+  min-height: 272px;
+  align-content: center;
+  gap: 22px;
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  clip-path: inset(50%);
+}
+
+.skeleton-intro,
+.skeleton-stop-copy {
+  display: grid;
+  gap: 8px;
+}
+
+.skeleton-line {
+  display: block;
+  height: 0.7rem;
+  border-radius: 999px;
+  background: linear-gradient(
+    90deg,
+    rgba(6, 78, 59, 0.08) 0%,
+    rgba(6, 78, 59, 0.08) 35%,
+    rgba(6, 78, 59, 0.19) 50%,
+    rgba(6, 78, 59, 0.08) 65%,
+    rgba(6, 78, 59, 0.08) 100%
+  );
+  background-size: 220% 100%;
+  animation: skeleton-shimmer 1.45s ease-in-out infinite;
+}
+
+.skeleton-line--kicker {
+  width: 23%;
+  height: 0.55rem;
+}
+
+.skeleton-line--title {
+  width: 57%;
+  height: 1.15rem;
+}
+
+.skeleton-line--summary {
+  width: 88%;
+}
+
+.skeleton-stops {
+  display: grid;
+  gap: 9px;
+}
+
+.skeleton-stop {
+  display: grid;
+  grid-template-columns: 72px minmax(0, 1fr);
+  gap: 11px;
+  border: 1px solid rgba(6, 78, 59, 0.1);
+  border-radius: 10px;
+  padding: 12px;
+}
+
+.skeleton-line--time {
+  width: 76%;
+  height: 0.62rem;
+}
+
+.skeleton-line--stop-title {
+  width: 53%;
+  height: 0.82rem;
+}
+
+.skeleton-line--stop-detail {
+  width: 83%;
+  height: 0.62rem;
+}
+
 .itinerary-empty-message {
   margin: 0;
   color: var(--voyage-emerald);
@@ -1177,6 +1259,12 @@ select {
 @keyframes itinerary-shine {
   to {
     transform: rotate(360deg);
+  }
+}
+
+@keyframes skeleton-shimmer {
+  to {
+    background-position: -220% 0;
   }
 }
 
