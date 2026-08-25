@@ -1,4 +1,3 @@
-import { useMemo, useState, type MouseEvent } from "react";
 import {
   ArrowDownRight,
   ArrowRight,
@@ -8,6 +7,8 @@ import {
   ScanLine,
   Volume2,
 } from "lucide-react";
+import { useMemo, useState, type MouseEvent } from "react";
+import { getImageUrl } from "../imageLoader";
 import {
   durationOptions,
   emirateOptions,
@@ -18,7 +19,6 @@ import {
   type Interest,
 } from "../script";
 import "../styles.css";
-import { getImageUrl } from "../imageLoader";
 
 type LandmarkTab = "all" | "culture" | "nature" | "modern";
 
@@ -38,19 +38,22 @@ interface ItineraryData {
 
 const landmarkCards = [
   {
-    image: "https://images.trvl-media.com/place/553248621560904133/0b49858a-e085-449c-bd25-6d8fab79e2d8.jpg",
+    image:
+      "https://images.trvl-media.com/place/553248621560904133/0b49858a-e085-449c-bd25-6d8fab79e2d8.jpg",
     name: "Louvre Abu Dhabi",
     emirate: "Abu Dhabi",
     groups: ["all", "culture", "modern"],
   },
   {
-    image: "https://media.cntraveler.com/photos/5a8481fd86e4b63c297d4817/16:9/w_2560,c_limit/Al-Fahedi-Fort__2018_GettyImages-545622825.jpg",
+    image:
+      "https://media.cntraveler.com/photos/5a8481fd86e4b63c297d4817/16:9/w_2560,c_limit/Al-Fahedi-Fort__2018_GettyImages-545622825.jpg",
     name: "Al Fahidi",
     emirate: "Dubai",
     groups: ["all", "culture"],
   },
   {
-    image: "https://b2352426.smushcdn.com/2352426/wp-content/uploads/2021/12/jebel-jais.jpg?lossy=2&strip=1&webp=1",
+    image:
+      "https://b2352426.smushcdn.com/2352426/wp-content/uploads/2021/12/jebel-jais.jpg?lossy=2&strip=1&webp=1",
     name: "Jebel Jais",
     emirate: "Ras Al Khaimah",
     groups: ["all", "nature"],
@@ -66,8 +69,14 @@ const tabs: { id: LandmarkTab; label: string }[] = [
 
 function setSpotlightPosition(event: MouseEvent<HTMLElement>) {
   const rect = event.currentTarget.getBoundingClientRect();
-  event.currentTarget.style.setProperty("--mouse-x", `${event.clientX - rect.left}px`);
-  event.currentTarget.style.setProperty("--mouse-y", `${event.clientY - rect.top}px`);
+  event.currentTarget.style.setProperty(
+    "--mouse-x",
+    `${event.clientX - rect.left}px`
+  );
+  event.currentTarget.style.setProperty(
+    "--mouse-y",
+    `${event.clientY - rect.top}px`
+  );
 }
 
 function setMagnetPosition(event: MouseEvent<HTMLButtonElement>) {
@@ -89,8 +98,71 @@ function RouteRail({ index, title }: { index: string; title: string }) {
     <aside className="route-rail" aria-hidden="true">
       <span className="section-index">{index}</span>
       <span className="section-name">{title}</span>
-      <span className="route-coordinate">Atlas stop {index}</span>
     </aside>
+  );
+}
+
+function ItinerarySkeleton() {
+  const shimmer =
+    "linear-gradient(90deg, rgba(255,255,255,0.08), rgba(255,255,255,0.24), rgba(255,255,255,0.08))";
+
+  return (
+    <div role="status" aria-label="Generating itinerary">
+      <div aria-hidden="true" style={{ display: "grid", gap: "0.75rem" }}>
+        <span
+          style={{
+            width: "42%",
+            height: "0.75rem",
+            borderRadius: "999px",
+            background: shimmer,
+          }}
+        />
+        <span
+          style={{
+            width: "88%",
+            height: "0.75rem",
+            borderRadius: "999px",
+            background: shimmer,
+          }}
+        />
+        {["first", "second", "third"].map(item => (
+          <div
+            key={item}
+            style={{
+              display: "grid",
+              gap: "0.55rem",
+              padding: "1rem 0",
+              borderTop: "1px solid rgba(255, 255, 255, 0.12)",
+            }}
+          >
+            <span
+              style={{
+                width: "30%",
+                height: "0.65rem",
+                borderRadius: "999px",
+                background: shimmer,
+              }}
+            />
+            <span
+              style={{
+                width: "58%",
+                height: "0.9rem",
+                borderRadius: "999px",
+                background: shimmer,
+              }}
+            />
+            <span
+              style={{
+                width: "78%",
+                height: "0.7rem",
+                borderRadius: "999px",
+                background: shimmer,
+              }}
+            />
+          </div>
+        ))}
+      </div>
+    </div>
   );
 }
 
@@ -101,27 +173,17 @@ export default function Home() {
   const [duration, setDuration] = useState<Duration>("3 Days");
   const [isGenerating, setIsGenerating] = useState(false);
 
-  const [itinerary, setItinerary] = useState<ItineraryData>({
-    title: "3 Days in All UAE",
-    summary: "Select your preferences and click Generate to build a custom travel route!",
-    stops: [
-      {
-        day: 1,
-        timing: "Morning",
-        name: "Louvre Abu Dhabi",
-        emirate: "Abu Dhabi",
-        note: "Explore world-class art and iconic modern architecture."
-      }
-    ],
-  });
+  const [itinerary, setItinerary] = useState<ItineraryData | null>(null);
 
   const visibleLandmarks = useMemo(
-    () => landmarkCards.filter((landmark) => landmark.groups.includes(activeTab)),
-    [activeTab],
+    () => landmarkCards.filter(landmark => landmark.groups.includes(activeTab)),
+    [activeTab]
   );
 
   const scrollToPlan = () => {
-    document.getElementById("plan")?.scrollIntoView({ behavior: "smooth", block: "start" });
+    document
+      .getElementById("plan")
+      ?.scrollIntoView({ behavior: "smooth", block: "start" });
   };
 
   const makeItinerary = async () => {
@@ -154,8 +216,10 @@ export default function Home() {
             <img
               className="brand-mark"
               src="/manus-storage/voyage-uae-logo_8262b330.png"
-              onError={(e) => {
-                (e.target as HTMLImageElement).src = getImageUrl("/manus-storage/voyage-uae-logo_8262b330.png");
+              onError={e => {
+                (e.target as HTMLImageElement).src = getImageUrl(
+                  "/manus-storage/voyage-uae-logo_8262b330.png"
+                );
               }}
               alt=""
             />
@@ -177,8 +241,10 @@ export default function Home() {
           <img
             className="hero-media"
             src="/manus-storage/voyage-uae-hero-placeholder_7bdb7c31.jpg"
-            onError={(e) => {
-              (e.target as HTMLImageElement).src = getImageUrl("/manus-storage/voyage-uae-hero-placeholder_7bdb7c31.jpg");
+            onError={e => {
+              (e.target as HTMLImageElement).src = getImageUrl(
+                "/manus-storage/voyage-uae-hero-placeholder_7bdb7c31.jpg"
+              );
             }}
             alt="Desert dunes, modern UAE architecture, city skyline, and distant mountains"
           />
@@ -191,7 +257,8 @@ export default function Home() {
                 Voyage <span>UAE</span>
               </h1>
               <p className="hero-tagline">
-                Explore landmarks, culture, and nature across all seven Emirates.
+                Explore landmarks, culture, and nature across all seven
+                Emirates.
               </p>
               <div className="hero-actions">
                 <button
@@ -202,7 +269,11 @@ export default function Home() {
                   onMouseLeave={resetMagnetPosition}
                 >
                   <span>Start Exploring</span>
-                  <ArrowDownRight size={17} strokeWidth={2.2} aria-hidden="true" />
+                  <ArrowDownRight
+                    size={17}
+                    strokeWidth={2.2}
+                    aria-hidden="true"
+                  />
                 </button>
               </div>
               <div className="hero-badges" aria-label="Project tags">
@@ -212,7 +283,10 @@ export default function Home() {
               </div>
             </div>
 
-            <aside className="student-card" aria-label="Student project information">
+            <aside
+              className="student-card"
+              aria-label="Student project information"
+            >
               <span className="route-kicker">Project profile</span>
               <h2>Student details</h2>
               <dl className="student-list">
@@ -234,21 +308,31 @@ export default function Home() {
         </section>
 
         <div className="route-story">
-          <section className="shell route-section" id="about" data-route="24.4539° N · 54.3773° E">
+          <section
+            className="shell route-section"
+            id="about"
+            data-route="24.4539° N · 54.3773° E"
+          >
             <RouteRail index="01" title="About AI" />
             <div className="section-content">
               <div className="section-heading">
                 <span className="eyebrow">A simple helping hand</span>
                 <h2>A clearer way to feel at home in a new place.</h2>
                 <p>
-                  This project uses simple AI ideas to help visitors understand places, find their way, and spend more time enjoying the UAE.
+                  This project uses simple AI ideas to help visitors understand
+                  places, find their way, and spend more time enjoying the UAE.
                 </p>
               </div>
               <div className="overview-layout">
-                <article className="spotlight-card" onMouseMove={setSpotlightPosition}>
+                <article
+                  className="spotlight-card"
+                  onMouseMove={setSpotlightPosition}
+                >
                   <h3>A travel guide for the small things that matter.</h3>
                   <p>
-                    It does not replace a guide or a good plan. It gives visitors useful information in a clear, quick way when they are finding their way.
+                    It does not replace a guide or a good plan. It gives
+                    visitors useful information in a clear, quick way when they
+                    are finding their way.
                   </p>
                 </article>
                 <div className="ai-points">
@@ -258,7 +342,10 @@ export default function Home() {
                   </article>
                   <article className="ai-point">
                     <strong>Location Suggestions</strong>
-                    <p>Recommends nearby places based on what a visitor likes to see.</p>
+                    <p>
+                      Recommends nearby places based on what a visitor likes to
+                      see.
+                    </p>
                   </article>
                   <article className="ai-point">
                     <strong>UAE Vision</strong>
@@ -269,15 +356,26 @@ export default function Home() {
             </div>
           </section>
 
-          <section className="shell route-section" aria-labelledby="landmark-heading" data-route="25.2048° N · 55.2708° E">
+          <section
+            className="shell route-section"
+            aria-labelledby="landmark-heading"
+            data-route="25.2048° N · 55.2708° E"
+          >
             <RouteRail index="02" title="Landmarks" />
             <div className="section-content">
               <div className="section-heading">
                 <span className="eyebrow">A route through the country</span>
-                <h2 id="landmark-heading">From old neighbourhoods to mountain roads, every stop has a story.</h2>
+                <h2 id="landmark-heading">
+                  From old neighbourhoods to mountain roads, every stop has a
+                  story.
+                </h2>
               </div>
-              <div className="topic-tabs" role="tablist" aria-label="Filter landmarks by topic">
-                {tabs.map((tab) => (
+              <div
+                className="topic-tabs"
+                role="tablist"
+                aria-label="Filter landmarks by topic"
+              >
+                {tabs.map(tab => (
                   <button
                     className="tab-button"
                     data-active={activeTab === tab.id}
@@ -294,13 +392,14 @@ export default function Home() {
               <div className="landmark-grid" role="tabpanel">
                 {visibleLandmarks.map((landmark, index) => (
                   <article className="landmark-card" key={landmark.name}>
-                    <span className="image-ordinal">Route stop {String(index + 1).padStart(2, "0")}</span>
                     <img
                       className="landmark-image"
                       src={landmark.image}
                       alt={landmark.name}
-                      onError={(e) => {
-                        (e.target as HTMLImageElement).src = getImageUrl(landmark.image);
+                      onError={e => {
+                        (e.target as HTMLImageElement).src = getImageUrl(
+                          landmark.image
+                        );
                       }}
                     />
                     <div className="landmark-caption">
@@ -313,34 +412,68 @@ export default function Home() {
             </div>
           </section>
 
-          <section className="shell route-section" id="problem" data-route="25.3573° N · 55.4033° E">
+          <section
+            className="shell route-section"
+            id="problem"
+            data-route="25.3573° N · 55.4033° E"
+          >
             <RouteRail index="03" title="The problem" />
             <div className="section-content">
               <div className="section-heading">
-                <span className="eyebrow">Travel can be difficult at first</span>
-                <h2>A visitor should spend the day seeing places, not searching for the way.</h2>
+                <span className="eyebrow">
+                  Travel can be difficult at first
+                </span>
+                <h2>
+                  A visitor should spend the day seeing places, not searching
+                  for the way.
+                </h2>
               </div>
               <div className="problem-grid">
-                <article className="content-card problem-card" data-note="Travel note" onMouseMove={setSpotlightPosition}>
+                <article
+                  className="content-card problem-card"
+                  data-note="Travel note"
+                  onMouseMove={setSpotlightPosition}
+                >
                   <span className="problem-number">01</span>
                   <h3>Unfamiliar transit routes</h3>
-                  <p>Getting confused by unfamiliar transit routes can take time away from sightseeing.</p>
+                  <p>
+                    Getting confused by unfamiliar transit routes can take time
+                    away from sightseeing.
+                  </p>
                 </article>
-                <article className="content-card problem-card" data-note="Travel note" onMouseMove={setSpotlightPosition}>
+                <article
+                  className="content-card problem-card"
+                  data-note="Travel note"
+                  onMouseMove={setSpotlightPosition}
+                >
                   <span className="problem-number">02</span>
                   <h3>Busy attractions</h3>
-                  <p>Long lines during busy hours can make popular places less enjoyable for visitors.</p>
+                  <p>
+                    Long lines during busy hours can make popular places less
+                    enjoyable for visitors.
+                  </p>
                 </article>
-                <article className="content-card problem-card" data-note="Travel note" onMouseMove={setSpotlightPosition}>
+                <article
+                  className="content-card problem-card"
+                  data-note="Travel note"
+                  onMouseMove={setSpotlightPosition}
+                >
                   <span className="problem-number">03</span>
                   <h3>Hidden cultural places</h3>
-                  <p>Historic cultural spots outside the main city hubs can be easy to miss without a guide.</p>
+                  <p>
+                    Historic cultural spots outside the main city hubs can be
+                    easy to miss without a guide.
+                  </p>
                 </article>
               </div>
             </div>
           </section>
 
-          <section className="shell route-section" id="solution" data-route="25.7895° N · 55.9432° E">
+          <section
+            className="shell route-section"
+            id="solution"
+            data-route="25.7895° N · 55.9432° E"
+          >
             <RouteRail index="04" title="AI solution" />
             <div className="section-content">
               <div className="section-heading">
@@ -352,13 +485,19 @@ export default function Home() {
                   <Volume2 size={21} strokeWidth={1.8} aria-hidden="true" />
                   <span className="solution-number">01</span>
                   <h3>Live Audio Translator</h3>
-                  <p>Helps visitors understand signs and listen to guides in a language that feels familiar.</p>
+                  <p>
+                    Helps visitors understand signs and listen to guides in a
+                    language that feels familiar.
+                  </p>
                 </article>
                 <article className="solution-card" data-note="Guide tool">
                   <ScanLine size={21} strokeWidth={1.8} aria-hidden="true" />
                   <span className="solution-number">02</span>
                   <h3>Best-Time Visitor Tracker</h3>
-                  <p>Suggests quieter times to visit popular spots and helps travellers plan around busy hours.</p>
+                  <p>
+                    Suggests quieter times to visit popular spots and helps
+                    travellers plan around busy hours.
+                  </p>
                 </article>
               </div>
 
@@ -367,17 +506,24 @@ export default function Home() {
                   <div className="itinerary-form-area">
                     <span className="route-kicker">Interactive feature</span>
                     <h3>UAE Itinerary Generator</h3>
-                    <p>Pick a place and a travel mood, then sketch a day that makes sense.</p>
+                    <p>
+                      Pick a place and a travel mood, then sketch a day that
+                      makes sense.
+                    </p>
                     <div className="itinerary-form">
                       <label>
                         <span className="field-label">1. Emirate</span>
                         <select
                           className="select-control"
                           value={emirate}
-                          onChange={(event) => setEmirate(event.target.value as Emirate)}
+                          onChange={event =>
+                            setEmirate(event.target.value as Emirate)
+                          }
                         >
-                          {emirateOptions.map((option) => (
-                            <option key={option} value={option}>{option}</option>
+                          {emirateOptions.map(option => (
+                            <option key={option} value={option}>
+                              {option}
+                            </option>
                           ))}
                         </select>
                       </label>
@@ -386,10 +532,14 @@ export default function Home() {
                         <select
                           className="select-control"
                           value={interest}
-                          onChange={(event) => setInterest(event.target.value as Interest)}
+                          onChange={event =>
+                            setInterest(event.target.value as Interest)
+                          }
                         >
-                          {interestOptions.map((option) => (
-                            <option key={option} value={option}>{option}</option>
+                          {interestOptions.map(option => (
+                            <option key={option} value={option}>
+                              {option}
+                            </option>
                           ))}
                         </select>
                       </label>
@@ -398,10 +548,14 @@ export default function Home() {
                         <select
                           className="select-control"
                           value={duration}
-                          onChange={(event) => setDuration(event.target.value as Duration)}
+                          onChange={event =>
+                            setDuration(event.target.value as Duration)
+                          }
                         >
-                          {durationOptions.map((option) => (
-                            <option key={option} value={option}>{option}</option>
+                          {durationOptions.map(option => (
+                            <option key={option} value={option}>
+                              {option}
+                            </option>
                           ))}
                         </select>
                       </label>
@@ -413,56 +567,108 @@ export default function Home() {
                         onMouseMove={setMagnetPosition}
                         onMouseLeave={resetMagnetPosition}
                       >
-                        <span>{isGenerating ? "Generating..." : "Generate Itinerary"}</span>
-                        <ArrowRight size={16} strokeWidth={2.2} aria-hidden="true" />
+                        <span>
+                          {isGenerating
+                            ? "Generating..."
+                            : "Generate Itinerary"}
+                        </span>
+                        <ArrowRight
+                          size={16}
+                          strokeWidth={2.2}
+                          aria-hidden="true"
+                        />
                       </button>
                     </div>
                   </div>
 
-                  <div className="itinerary-result" aria-live="polite">
-                    <span className="route-kicker">Suggested route</span>
-                    <h3>{itinerary.title}</h3>
-                    <p>{itinerary.summary}</p>
-                    <div className="itinerary-list">
-                      {itinerary.stops.map((stop, index) => (
-                        <article className="itinerary-stop" key={`${stop.name}-${index}`}>
-                          <span className="stop-time">Day {stop.day} · {stop.timing}</span>
-                          <div className="stop-info">
-                            <strong>{stop.name}</strong>
-                            <span>{stop.emirate}</span>
-                            <p>{stop.note}</p>
-                          </div>
-                        </article>
-                      ))}
-                    </div>
+                  <div
+                    className={`itinerary-result${
+                      !isGenerating && !itinerary
+                        ? " itinerary-result--empty"
+                        : ""
+                    }`}
+                    aria-live="polite"
+                    aria-busy={isGenerating}
+                  >
+                    {isGenerating ? (
+                      <ItinerarySkeleton />
+                    ) : itinerary ? (
+                      <>
+                        <span className="route-kicker">Suggested route</span>
+                        <h3>{itinerary.title}</h3>
+                        <p>{itinerary.summary}</p>
+                        <div className="itinerary-list">
+                          {itinerary.stops.map((stop, index) => (
+                            <article
+                              className="itinerary-stop"
+                              key={`${stop.name}-${index}`}
+                            >
+                              <span className="stop-time">
+                                Day {stop.day} · {stop.timing}
+                              </span>
+                              <div className="stop-info">
+                                <strong>{stop.name}</strong>
+                                <span>{stop.emirate}</span>
+                                <p>{stop.note}</p>
+                              </div>
+                            </article>
+                          ))}
+                        </div>
+                      </>
+                    ) : (
+                      <p className="itinerary-empty-message">
+                        Click button to generate itinerary
+                      </p>
+                    )}
                   </div>
                 </div>
               </div>
             </div>
           </section>
 
-          <section className="shell route-section" id="impact" data-route="25.1288° N · 56.3265° E">
+          <section
+            className="shell route-section"
+            id="impact"
+            data-route="25.1288° N · 56.3265° E"
+          >
             <RouteRail index="05" title="UAE impact" />
             <div className="section-content">
               <div className="section-heading">
                 <span className="eyebrow">Why this project matters</span>
-                <h2>Good journeys help visitors understand the country with care.</h2>
+                <h2>
+                  Good journeys help visitors understand the country with care.
+                </h2>
               </div>
               <div className="impact-grid">
                 <article className="impact-card">
-                  <span className="impact-symbol"><Leaf size={18} strokeWidth={1.8} aria-hidden="true" /></span>
+                  <span className="impact-symbol">
+                    <Leaf size={18} strokeWidth={1.8} aria-hidden="true" />
+                  </span>
                   <h3>Responsible travel</h3>
-                  <p>Encourages visitors to choose thoughtful routes and appreciate natural and cultural places with care.</p>
+                  <p>
+                    Encourages visitors to choose thoughtful routes and
+                    appreciate natural and cultural places with care.
+                  </p>
                 </article>
                 <article className="impact-card">
-                  <span className="impact-symbol"><MapPinned size={18} strokeWidth={1.8} aria-hidden="true" /></span>
+                  <span className="impact-symbol">
+                    <MapPinned size={18} strokeWidth={1.8} aria-hidden="true" />
+                  </span>
                   <h3>Local culture</h3>
-                  <p>Helps tourists learn about traditional UAE culture and history beyond the main city attractions.</p>
+                  <p>
+                    Helps tourists learn about traditional UAE culture and
+                    history beyond the main city attractions.
+                  </p>
                 </article>
                 <article className="impact-card">
-                  <span className="impact-symbol"><Compass size={18} strokeWidth={1.8} aria-hidden="true" /></span>
+                  <span className="impact-symbol">
+                    <Compass size={18} strokeWidth={1.8} aria-hidden="true" />
+                  </span>
                   <h3>Smart services</h3>
-                  <p>Supports the national goal of building smart digital services for Vision 2071.</p>
+                  <p>
+                    Supports the national goal of building smart digital
+                    services for Vision 2071.
+                  </p>
                 </article>
               </div>
             </div>
@@ -473,16 +679,23 @@ export default function Home() {
           <div className="shell closing-inner">
             <div className="closing-copy">
               <span className="eyebrow">Conclusion</span>
-              <h2>Voyage UAE turns “Where do we go next?” into a simple, thoughtful route.</h2>
+              <h2>
+                Voyage UAE turns “Where do we go next?” into a simple,
+                thoughtful route.
+              </h2>
               <p>
-                By bringing helpful suggestions, and a clear travel plan into one place, the project helps visitors spend less time feeling lost and more time learning about the UAE.
+                By bringing helpful suggestions, and a clear travel plan into
+                one place, the project helps visitors spend less time feeling
+                lost and more time learning about the UAE.
               </p>
             </div>
             <img
               className="closing-mark"
               src="/manus-storage/voyage-uae-logo_8262b330.png"
-              onError={(e) => {
-                (e.target as HTMLImageElement).src = getImageUrl("/manus-storage/voyage-uae-logo_8262b330.png");
+              onError={e => {
+                (e.target as HTMLImageElement).src = getImageUrl(
+                  "/manus-storage/voyage-uae-logo_8262b330.png"
+                );
               }}
               alt=""
             />
@@ -493,7 +706,10 @@ export default function Home() {
       <footer className="site-footer">
         <div className="shell footer-inner">
           <p className="footer-label">Voyage UAE · Grade 9 AI Project</p>
-          <p>A simple travel app helping visitors explore landmarks across the UAE.</p>
+          <p>
+            A simple travel app helping visitors explore landmarks across the
+            UAE.
+          </p>
         </div>
       </footer>
     </div>

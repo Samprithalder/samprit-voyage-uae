@@ -28,13 +28,15 @@ select {
 }
 
 .voyage-page {
-.voyage-page {
   min-height: 100vh;
-  overflow: clip; 
+  overflow: clip;
   background:
-    radial-gradient(circle at 100% 11%, rgba(248, 231, 201, 0.9), transparent 22rem),
+    radial-gradient(
+      circle at 100% 11%,
+      rgba(248, 231, 201, 0.9),
+      transparent 22rem
+    ),
     linear-gradient(180deg, #f8f3ea 0%, #f4efe5 57%, #ece1cf 100%);
-}
 }
 
 .voyage-page * {
@@ -172,7 +174,13 @@ select {
 .hero-overlay {
   z-index: -1;
   background:
-    linear-gradient(90deg, rgba(3, 52, 41, 0.98) 0%, rgba(3, 52, 41, 0.91) 37%, rgba(3, 52, 41, 0.44) 72%, rgba(3, 52, 41, 0.52) 100%),
+    linear-gradient(
+      90deg,
+      rgba(3, 52, 41, 0.98) 0%,
+      rgba(3, 52, 41, 0.91) 37%,
+      rgba(3, 52, 41, 0.44) 72%,
+      rgba(3, 52, 41, 0.52) 100%
+    ),
     linear-gradient(180deg, rgba(3, 52, 41, 0.18), rgba(3, 52, 41, 0.72));
 }
 
@@ -276,7 +284,10 @@ select {
   font-weight: 900;
   text-decoration: none;
   transform: translate(var(--magnet-x), var(--magnet-y));
-  transition: transform 170ms var(--voyage-ease-out), box-shadow 170ms var(--voyage-ease-out), background 170ms var(--voyage-ease-out);
+  transition:
+    transform 170ms var(--voyage-ease-out),
+    box-shadow 170ms var(--voyage-ease-out),
+    background 170ms var(--voyage-ease-out);
 }
 
 .specular-button::before {
@@ -401,7 +412,12 @@ select {
   right: -205px;
   width: 600px;
   height: 1190px;
-  background: repeating-radial-gradient(ellipse at 32% 34%, transparent 0 52px, rgba(6, 78, 59, 0.095) 53px 54px, transparent 55px 91px);
+  background: repeating-radial-gradient(
+    ellipse at 32% 34%,
+    transparent 0 52px,
+    rgba(6, 78, 59, 0.095) 53px 54px,
+    transparent 55px 91px
+  );
   content: "";
   opacity: 0.67;
   pointer-events: none;
@@ -526,15 +542,21 @@ select {
   background: transparent;
   content: "";
   opacity: 0;
-  box-shadow: 0 0 16px rgba(212, 175, 143, 0.5), inset 0 0 16px rgba(212, 175, 143, 0.2);
-  transition: opacity 220ms var(--voyage-ease-out), box-shadow 220ms var(--voyage-ease-out);
+  box-shadow:
+    0 0 16px rgba(212, 175, 143, 0.5),
+    inset 0 0 16px rgba(212, 175, 143, 0.2);
+  transition:
+    opacity 220ms var(--voyage-ease-out),
+    box-shadow 220ms var(--voyage-ease-out);
   pointer-events: none;
 }
 
 .spotlight-card:hover::before,
 .content-card:hover::before {
   opacity: 1;
-  box-shadow: 0 0 24px rgba(212, 175, 143, 0.7), inset 0 0 16px rgba(212, 175, 143, 0.3);
+  box-shadow:
+    0 0 24px rgba(212, 175, 143, 0.7),
+    inset 0 0 16px rgba(212, 175, 143, 0.3);
 }
 
 .spotlight-card > *,
@@ -598,12 +620,16 @@ select {
   background: rgba(255, 252, 248, 0.75);
   padding: 20px 20px 19px;
   box-shadow: 0 8px 20px rgba(6, 78, 59, 0.045);
-  transition: border-color 220ms var(--voyage-ease-out), box-shadow 220ms var(--voyage-ease-out);
+  transition:
+    border-color 220ms var(--voyage-ease-out),
+    box-shadow 220ms var(--voyage-ease-out);
 }
 
 .ai-point:hover {
   border-color: var(--voyage-glow);
-  box-shadow: 0 8px 20px rgba(6, 78, 59, 0.045), 0 0 12px rgba(212, 175, 143, 0.4);
+  box-shadow:
+    0 8px 20px rgba(6, 78, 59, 0.045),
+    0 0 12px rgba(212, 175, 143, 0.4);
 }
 
 .ai-point strong,
@@ -642,7 +668,10 @@ select {
   color: var(--voyage-emerald);
   font-size: 0.74rem;
   font-weight: 900;
-  transition: color 180ms var(--voyage-ease-out), background 180ms var(--voyage-ease-out), transform 180ms var(--voyage-ease-out);
+  transition:
+    color 180ms var(--voyage-ease-out),
+    background 180ms var(--voyage-ease-out),
+    transform 180ms var(--voyage-ease-out);
 }
 
 .tab-button[data-active="true"] {
@@ -654,7 +683,9 @@ select {
 
 .tab-button:hover {
   border-color: var(--voyage-glow);
-  box-shadow: 0 0 12px rgba(212, 175, 143, 0.5), inset 0 0 12px rgba(212, 175, 143, 0.1);
+  box-shadow:
+    0 0 12px rgba(212, 175, 143, 0.5),
+    inset 0 0 12px rgba(212, 175, 143, 0.1);
 }
 
 .landmark-grid {
@@ -667,7 +698,9 @@ select {
   background: #fffcf8;
   box-shadow: 0 11px 25px rgba(6, 78, 59, 0.09);
   border: 1px solid rgba(6, 78, 59, 0.16);
-  transition: border-color 220ms var(--voyage-ease-out), box-shadow 220ms var(--voyage-ease-out);
+  transition:
+    border-color 220ms var(--voyage-ease-out),
+    box-shadow 220ms var(--voyage-ease-out);
 }
 
 .landmark-card:first-child {
@@ -678,7 +711,9 @@ select {
 
 .landmark-card:hover {
   border-color: var(--voyage-glow);
-  box-shadow: 0 11px 25px rgba(6, 78, 59, 0.09), 0 0 20px rgba(212, 175, 143, 0.6);
+  box-shadow:
+    0 11px 25px rgba(6, 78, 59, 0.09),
+    0 0 20px rgba(212, 175, 143, 0.6);
 }
 
 .landmark-image {
@@ -758,7 +793,9 @@ select {
   border: 1px solid rgba(6, 78, 59, 0.16);
   background: rgba(255, 252, 248, 0.85);
   padding: 24px 22px;
-  transition: border-color 220ms var(--voyage-ease-out), box-shadow 220ms var(--voyage-ease-out);
+  transition:
+    border-color 220ms var(--voyage-ease-out),
+    box-shadow 220ms var(--voyage-ease-out);
 }
 
 .problem-card:hover,
@@ -821,7 +858,14 @@ select {
   inset: -1px;
   z-index: -1;
   border-radius: inherit;
-  background: conic-gradient(from 210deg, var(--voyage-champagne), #ffd78e, var(--voyage-champagne), #4f8a74, var(--voyage-champagne));
+  background: conic-gradient(
+    from 210deg,
+    var(--voyage-champagne),
+    #ffd78e,
+    var(--voyage-champagne),
+    #4f8a74,
+    var(--voyage-champagne)
+  );
   content: "";
   animation: itinerary-shine 7s linear infinite;
 }
@@ -902,12 +946,16 @@ select {
   appearance: none;
   border: 1px solid rgba(248, 231, 201, 0.36);
   border-radius: 9px;
-  background: rgba(248, 231, 201, 0.09) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='14' fill='none' viewBox='0 0 24 24' stroke='%23F8E7C9' stroke-width='2'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' d='m6 9 6 6 6-6'/%3E%3C/svg%3E") no-repeat right 13px center;
+  background: rgba(248, 231, 201, 0.09)
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='14' fill='none' viewBox='0 0 24 24' stroke='%23F8E7C9' stroke-width='2'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' d='m6 9 6 6 6-6'/%3E%3C/svg%3E")
+    no-repeat right 13px center;
   color: #fffdf5;
   padding: 12px 39px 12px 12px;
   font-size: 0.83rem;
   font-weight: 700;
-  transition: border-color 220ms var(--voyage-ease-out), box-shadow 220ms var(--voyage-ease-out);
+  transition:
+    border-color 220ms var(--voyage-ease-out),
+    box-shadow 220ms var(--voyage-ease-out);
 }
 
 .select-control:hover {
@@ -928,6 +976,18 @@ select {
 .itinerary-result {
   background: rgba(255, 252, 248, 0.98);
   padding: 31px;
+}
+
+.itinerary-result--empty {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.itinerary-empty-message {
+  margin: 0;
+  color: var(--voyage-emerald);
+  font-size: 1.15rem;
 }
 
 .itinerary-result .route-kicker {
@@ -962,7 +1022,9 @@ select {
   border-radius: 10px;
   background: #fffcf8;
   padding: 12px;
-  transition: border-color 220ms var(--voyage-ease-out), box-shadow 220ms var(--voyage-ease-out);
+  transition:
+    border-color 220ms var(--voyage-ease-out),
+    box-shadow 220ms var(--voyage-ease-out);
 }
 
 .itinerary-stop:hover {
@@ -1002,7 +1064,9 @@ select {
   min-height: 216px;
   background: rgba(255, 252, 248, 0.82);
   padding: 25px 22px;
-  transition: border-color 220ms var(--voyage-ease-out), box-shadow 220ms var(--voyage-ease-out);
+  transition:
+    border-color 220ms var(--voyage-ease-out),
+    box-shadow 220ms var(--voyage-ease-out);
 }
 
 .impact-card:hover {
