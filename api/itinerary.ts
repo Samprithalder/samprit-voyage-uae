@@ -39,7 +39,11 @@ Return ONLY valid JSON matching this exact structure:
   ]
 }`;
 
-  const modelCandidates = ["gemini-2.5-flash", "gemini-2.5-flash-lite"];
+  const modelCandidates = [
+    "gemini-2.5-flash",
+    "gemini-2.5-flash-lite",
+    "gemini-3.5-flash-lite",
+  ];
 
   let lastError = "";
 
