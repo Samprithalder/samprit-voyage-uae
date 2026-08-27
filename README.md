@@ -1,7 +1,6 @@
 # Voyage UAE
 
-> **Voyage UAE** is a Grade 9 artificial-intelligence project that presents the United Arab Emirates through an interactive, editorial travel guide. Visitors can browse landmark themes and generate a suggested itinerary based on an Emirate, travel interest, and trip duration.
-
+This project presents the United Arab Emirates through an interactive, editorial travel guide. Visitors can browse landmark themes and generate a suggested itinerary based on an Emirate, travel interest, and trip duration.
 The website was created with the assistance of **Manus**, **Claude**, and **Gemini**. Manus and Claude supported the project’s development workflow, planning, content, and implementation work, while Gemini powers the server-side itinerary-generation feature. The application itself is a React and TypeScript project built with Vite and deployed with a Vercel-compatible API endpoint.
 
 | Item              | Details                                                                     |
@@ -14,7 +13,6 @@ The website was created with the assistance of **Manus**, **Claude**, and **Gemi
 | UI foundation     | shadcn-style UI primitives, Radix UI, Lucide icons, and custom CSS          |
 | AI feature        | Google Gemini is called only through `POST /api/itinerary`                  |
 | Deployment target | Vercel static output in `dist/public` with a root-level serverless endpoint |
-| Repository scope  | 99 tracked files at the documented revision                                 |
 
 ## Contents
 
@@ -373,4 +371,4 @@ Run `pnpm build` to produce `dist/public`. The included `server/index.ts` can se
 
 ---
 
-**This was made using Manus, Claude, and Gemini**.
+**This was made with the help of Manus, Claude, and Gemini**.

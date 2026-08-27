@@ -179,17 +179,12 @@ export default function Home() {
           <a className="brand-lockup" href="#home" aria-label="Voyage UAE home">
             <img
               className="brand-mark"
-              src="/manus-storage/voyage-uae-logo_8262b330.png"
-              onError={e => {
-                (e.target as HTMLImageElement).src = getImageUrl(
-                  "/manus-storage/voyage-uae-logo_8262b330.png"
-                );
-              }}
-              alt=""
+              src="/icons/voyage-uae-favicon-solid.png"
+              alt="Voyage UAE logo"
             />
             <span className="brand-copy">
               <span className="brand-name">Voyage UAE</span>
-              <span className="brand-kicker">Travel guide project</span>
+              <span className="brand-kicker">Travel Guide Project</span>
             </span>
           </a>
           <nav className="main-nav" aria-label="Main navigation">
@@ -655,12 +650,7 @@ export default function Home() {
             </div>
             <img
               className="closing-mark"
-              src="/manus-storage/voyage-uae-logo_8262b330.png"
-              onError={e => {
-                (e.target as HTMLImageElement).src = getImageUrl(
-                  "/manus-storage/voyage-uae-logo_8262b330.png"
-                );
-              }}
+              src="/icons/voyage-uae-favicon-solid.png"
               alt=""
             />
           </div>
